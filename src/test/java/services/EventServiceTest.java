@@ -5,6 +5,8 @@ package services;
 
 import junit.framework.TestCase;
 
+import org.junit.Test;
+
 public class EventServiceTest extends TestCase {
 
 	/* (non-Javadoc)
@@ -19,6 +21,11 @@ public class EventServiceTest extends TestCase {
 	 */
 	protected void tearDown() throws Exception {
 		super.tearDown();
+	}
+	
+	@Test
+	public void test() {
+		
 	}
 
 }
