@@ -21,29 +21,9 @@ import com.amazonaws.services.sns.model.SubscribeResult;
 
 import domain.Event;
 
-/**
- * This is a utility class to manage SNS communication for entries and
- * comments.  It's largely responsible for taking the entities passed in
- * to the methods, breaking them down into SNS requests, and then
- * sending those requests to the SNS client.
- *
- * The SNS process involves three steps, all covered within this class:
- * <ol>
- * <li>Creating a new topic</li>
- * <li>Subscribing to a topic</li>
- * <li>Posting a new message to a topic</li>
- * </ol>
- *
- * We do not have support here for unsubscribing from a topic.  SNS
- * automatically handles the process of confirming a user's desire
- * to be subscribed.  Each message sent also includes an unsubscribe
- * link.  So this process can largely be dealt with automatically.
- *
- */
 public class EventLogSNSManager  {
 
 	private static final String EMAIL_PROTOCOL="email";
-	private static final String SMS_PROTOCOL="sms";
 
 	private static Logger logger = Logger.getLogger(EventLogSNSManager.class.getName());
 
@@ -59,15 +39,9 @@ public class EventLogSNSManager  {
 	}
 
 	/**
-	 * Creates the SNS topic associated with an entry.  When the topic is created,
-	 * we will get an ARN (Amazon Resource Name) which uniquely identifies the
-	 * SNS topic.  We write that ARN to the entry entity so that we can refer to it
-	 * later when subscribing commenters, etc.
-	 *
-	 * @param entry the new entry that's associated with the topic
-	 * @return the result returned from AWS
+	 * Creates the SNS topic associated with an entry.  
 	 */
-	public CreateTopicResult createTopic (Event event) {
+	public CreateTopicResult createTopic(Event event) {
 		CreateTopicRequest request = new CreateTopicRequest(getTopicName(event));
 		CreateTopicResult result = snsClient.createTopic(request);
 		event.setSnsArn(result.getTopicArn());
@@ -88,20 +62,19 @@ public class EventLogSNSManager  {
 	 * @param event
 	 * @return {@link PublishRequest} object
 	 */
-	public PublishResult publish(Event event) {
+	public PublishResult publish(Event event, String actionPerformed) {
 		PublishRequest request = new PublishRequest();
 		request.setTopicArn(event.getSnsArn());
 
-		StringBuilder subject = new StringBuilder("Event posted'");
-		subject.append("Title");					// hardcoded for now
+		StringBuilder subject = new StringBuilder("Event posted: ");
+		subject.append(event.getName() + " - Action: " + actionPerformed);					
 		request.setSubject(subject.toString());
 
 		StringBuilder body = new StringBuilder();
-		body.append("The following event was added '").append(event.getName()).append("'\n");
-		body.append("body of the notification");	// hardcoded for now
+		body.append("The following event was added: '").append(event.getName()).append("'\n");
+		body.append("body of the notification");	
 
 		request.setMessage(body.toString());
-
 		return snsClient.publish(request);
 	}
 
@@ -117,7 +90,7 @@ public class EventLogSNSManager  {
 			logger.log(Level.WARNING,"Entry did not have an SNS topic associated with it");
 			return null;
 		}
-		SubscribeRequest request = new SubscribeRequest(event.getSnsArn(),EMAIL_PROTOCOL, email); 	// hard coded for now	
+		SubscribeRequest request = new SubscribeRequest(event.getSnsArn(),EMAIL_PROTOCOL, email); 		
 		SubscribeResult result = snsClient.subscribe(request);
 		return result;
 	}
