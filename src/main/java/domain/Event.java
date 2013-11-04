@@ -1,5 +1,7 @@
 package domain;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -14,7 +16,10 @@ public class Event extends BaseEntity {
     @Column(name = "location")
     private String location;
     
-    @Column(name = "description")
+    @Column(name = "eventdate")
+    private Date eventDate;
+    
+	@Column(name = "description")
     private String description;
 	
     @Column(name = "sns")
@@ -50,6 +55,20 @@ public class Event extends BaseEntity {
 		this.location = location;
 	}
 
+    /**
+	 * @return the date
+	 */
+	public Date getEventDate() {
+		return eventDate;
+	}
+
+	/**
+	 * @param date the date to set
+	 */
+	public void setEventDate(Date eventDate) {
+		this.eventDate = eventDate;
+	}
+	
 	/**
 	 * @return the description
 	 */

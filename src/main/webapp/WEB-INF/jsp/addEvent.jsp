@@ -8,13 +8,16 @@
     <tr>
       <th>
         <br/>
-         Event Name: <form:errors path="*" cssClass="errors"/>
+        Event Name: <form:errors path="*" cssClass="errors"/>
         <form:input path="name" size="35" maxlength="100"/>
+       	<br/>
+        Date: <form:errors path="*" cssClass="errors"/>
+        <form:input path="eventDate" size="35" maxlength="100"/>
         <br/>
-         Event Location: <form:errors path="*" cssClass="errors"/>
+        Event Location: <form:errors path="*" cssClass="errors"/>
         <form:input path="location" size="35" maxlength="100"/>
         <br/>
-         Event Description: <form:errors path="*" cssClass="errors"/>
+        Event Description: <form:errors path="*" cssClass="errors"/>
         <form:textarea path="description" size="55" maxlength="100"/>
       </th>
     </tr>

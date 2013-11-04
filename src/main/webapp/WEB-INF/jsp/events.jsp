@@ -1,10 +1,11 @@
 <%@ include file="/WEB-INF/jsp/includes.jsp" %>
 <%@ include file="/WEB-INF/jsp/header.jsp" %>
-<b>All Events:</b>
+<b>All Events:</b><br/>
 <table>
 	<tr>
 		<td><b>Id</b></td>
 		<td><b>Name</b></td>
+		<td><b>Date</b></td>
 		<td><b>Location</b></td>
 		<td><b>Description</b></td>
 	</tr>
@@ -12,6 +13,7 @@
     <tr>
       <td>${event.id}</td>
       <td>${event.name}</td>
+      <td>${event.eventDate}</td>
       <td>${event.location}</td>
       <td>${event.description}</td>
     </tr>
