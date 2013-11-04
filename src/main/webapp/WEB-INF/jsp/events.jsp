@@ -12,7 +12,12 @@
 	<c:forEach var="event" items="${events}">
     <tr>
       <td>${event.id}</td>
-      <td>${event.name}</td>
+      <td>
+	      <spring:url value="events/{eventId}" var="eventUrl">
+	     	<spring:param name="eventId" value="${event.id}"/>
+	      </spring:url>
+	      <a href="${fn:escapeXml(eventUrl)}">${event.name}</a>
+      </td>
       <td>${event.eventDate}</td>
       <td>${event.location}</td>
       <td>${event.description}</td>
@@ -20,4 +25,3 @@
   	</c:forEach>
 </table>
 <%@ include file="/WEB-INF/jsp/footer.jsp" %>
-
