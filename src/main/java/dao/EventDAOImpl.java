@@ -8,7 +8,6 @@ import javax.persistence.Query;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import domain.Event;
 
@@ -40,5 +39,10 @@ public class EventDAOImpl implements EventDAO {
 		} else {
 		  this.em.merge(event);
 		}
+	}
+
+	@Override
+	public Event loadEvent(int id) throws DataAccessException {
+		return this.em.find(Event.class, id);
 	}
 }

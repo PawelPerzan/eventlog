@@ -13,15 +13,17 @@ import services.EventService;
 public class EventController {
 	private EventService eventService;
 
+	/**
+	 * @param eventService
+	 */
 	@Autowired
 	public EventController(EventService eventService) {
 		this.eventService = eventService; 
 	}
-	
-/*	@RequestMapping("/home.do")
-	public void home() {
-	}*/
-	
+
+	/**
+	 * @return home view
+	 */
 	@RequestMapping("/")
 	public String home() {
 		return "home";
@@ -32,7 +34,7 @@ public class EventController {
 	 * @param eventId
 	 * @return model
 	 */
-	@RequestMapping(value="/events.do", method=RequestMethod.GET)
+	@RequestMapping(value="/events", method=RequestMethod.GET)
 	public ModelAndView listEvents() {
 		ModelAndView model = new ModelAndView("events");
 		model.addObject("events", this.eventService.findAllEvents());
@@ -44,10 +46,10 @@ public class EventController {
 	 * @param eventId
 	 * @return model
 	 */
-	@RequestMapping(value="/events.do/{eventId}", method=RequestMethod.GET)
+	@RequestMapping(value="/events/{eventId}", method=RequestMethod.GET)
 	public ModelAndView eventHandler(@PathVariable("eventId")int eventId) {
 		ModelAndView model = new ModelAndView("detail");
-		//model.addObject(this.eventService.loadEvent(eventId));
+		model.addObject(this.eventService.loadEvent(eventId));
 		return model;
 	}
 }

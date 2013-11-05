@@ -18,7 +18,7 @@ import domain.Event;
  * sending notifications 
  */
 @Controller
-@RequestMapping("/addEvent.do")
+@RequestMapping("/addEvent")
 public class AddEventFormController {
 	private EventService eventService;
 	private static final String RECIPIENT_EMAIL = "put_your_email_here";

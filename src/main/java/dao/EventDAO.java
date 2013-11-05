@@ -11,10 +11,7 @@ public interface EventDAO {
 	
 	Collection<Event> findEvents(String lastName) throws DataAccessException;
 
-	/*Event loadEvent(int id) throws DataAccessException;*/
+	Event loadEvent(int id) throws DataAccessException;
 
 	void saveEvent(Event event) throws DataAccessException;
-	
-
-
 }

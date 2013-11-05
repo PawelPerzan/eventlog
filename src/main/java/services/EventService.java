@@ -12,4 +12,6 @@ public interface EventService {
 	Collection<Event> findEvents(String lastName) throws DataAccessException;
 	
 	void saveEvent(Event event) throws DataAccessException;
+	
+	Event loadEvent(int id);
 }

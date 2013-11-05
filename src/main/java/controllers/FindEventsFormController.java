@@ -15,26 +15,45 @@ import services.EventService;
 import domain.Event;
 
 @Controller
-@RequestMapping("/findEvents.do")
+@RequestMapping("/findEvents")
 public class FindEventsFormController {
 	private EventService eventService;
 
+	/**
+	 * 
+	 * @param eventService
+	 */
 	@Autowired
 	public FindEventsFormController(EventService eventService) {
 		this.eventService = eventService; 
 	}
-	
+
+	/**
+	 * 
+	 * @param dataBinder
+	 */
     @InitBinder
     public void setAllowedFields(WebDataBinder dataBinder) {
         dataBinder.setDisallowedFields(new String[] {"id"});
     }
 
+    /**
+     * 
+     * @param model
+     * @return
+     */
 	@RequestMapping(method = RequestMethod.GET)
 	public String setupForm(Model model) {
 		model.addAttribute("event", new Event());
 		return "findEvents";
 	}
 
+	/**
+	 * @param event
+	 * @param result
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public String processSubmit(Event event, BindingResult result, Model model) {
 		// events by event name

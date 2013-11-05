@@ -13,7 +13,7 @@
     <tr>
       <td>${event.id}</td>
       <td>
-	      <spring:url value="events.do/{eventId}" var="eventUrl">
+	      <spring:url value="events/{eventId}" var="eventUrl">
 	     	<spring:param name="eventId" value="${event.id}"/>
 	      </spring:url>
 	      <a href="${fn:escapeXml(eventUrl)}">${event.name}</a>
