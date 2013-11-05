@@ -2,6 +2,7 @@ package controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,18 +18,36 @@ public class EventController {
 		this.eventService = eventService; 
 	}
 	
-	@RequestMapping("/home.do")
+/*	@RequestMapping("/home.do")
 	public void home() {
+	}*/
+	
+	@RequestMapping("/")
+	public String home() {
+		return "home";
 	}
 
 	/**
+	 * Handle displaying the list of events
 	 * @param eventId
-	 * @return
+	 * @return model
 	 */
 	@RequestMapping(value="/events.do", method=RequestMethod.GET)
 	public ModelAndView listEvents() {
 		ModelAndView model = new ModelAndView("events");
 		model.addObject("events", this.eventService.findAllEvents());
+		return model;
+	}
+	
+	/**
+	 * Handle displaying single event
+	 * @param eventId
+	 * @return model
+	 */
+	@RequestMapping(value="/events.do/{eventId}", method=RequestMethod.GET)
+	public ModelAndView eventHandler(@PathVariable("eventId")int eventId) {
+		ModelAndView model = new ModelAndView("detail");
+		//model.addObject(this.eventService.loadEvent(eventId));
 		return model;
 	}
 }

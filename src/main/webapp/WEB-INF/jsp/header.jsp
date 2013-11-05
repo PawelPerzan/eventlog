@@ -8,6 +8,6 @@
 <div id="main">
 <table class="footer">
     <tr>
-      <td><a href="<c:url value="/home.do"/>">Home</a></td>
+      <td><a href="<c:url value="/"/>">Home</a></td>
     </tr>
   </table>
