@@ -1,6 +1,10 @@
 package controllers;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -59,9 +63,25 @@ public class AddEventFormController {
 	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public String processSubmit(Event event, BindingResult result, Model model) {
-		eventService.saveEvent(event);
-		sendNotification(event, "ADD");
-		return "home";
+		
+		//Verify event creation
+        if (event.getName().equals("")) {
+            result.reject("name", "Event Name cannot be blank");
+        } 
+        if (event.getDescription().equals("")) {
+        	result.reject("description", "Description cannot be blank");
+        }  
+        if (event.getLocation().equals("")) {
+        	result.reject("location", "Location cannot be blank");
+        }
+		
+		if (result.hasErrors()) {
+			return "addEvent";
+		} else {
+			eventService.saveEvent(event);
+			sendNotification(event, "ADD");
+			return "home";
+		}
 	}
 	
 	/**
@@ -77,4 +97,15 @@ public class AddEventFormController {
 		sns.publish(event, actionPerformed);
 		return event;	
 	}
+	
+	 /**
+     * Method establishes the transformation of incoming date strings into Date objects
+     * @param binder the spring databinder object that we connect to the date editor
+     */
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        dateFormat.setLenient(true);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+    }
 }

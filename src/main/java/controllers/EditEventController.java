@@ -1,6 +1,10 @@
 package controllers;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,7 +23,7 @@ import domain.Event;
 
 @Controller
 @RequestMapping("/events/{eventId}/edit")
-@SessionAttributes(types = Event.class)
+@SessionAttributes("event")
 public class EditEventController {
 	private EventService eventService;
 	
@@ -36,17 +40,44 @@ public class EditEventController {
 		dataBinder.setDisallowedFields("id");
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
 	public String setupForm(@PathVariable("eventId") int eventId, Model model) {
+		
 		Event event = this.eventService.loadEvent(eventId);
-		model.addAttribute(event);
+		model.addAttribute("event", event);
 		return "eventForm";
 	}
 
-	@RequestMapping(method = RequestMethod.PUT)
-	public String processSubmit(@ModelAttribute Event event, BindingResult result, SessionStatus status) {
-		this.eventService.saveEvent(event);
-		status.setComplete();
-		return "redirect:/events";
+	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.POST})
+	public String processSubmit(@ModelAttribute("event") Event event, BindingResult result, SessionStatus status) {
+		//Verify event creation
+        if (event.getName().equals("")) {
+            result.reject("name", "Event Name cannot be blank");
+        } 
+        if (event.getDescription().equals("")) {
+        	result.reject("description", "Description cannot be blank");
+        }  
+        if (event.getLocation().equals("")) {
+        	result.reject("location", "Location cannot be blank");
+        }
+        
+        
+        if (result.hasErrors()) {
+			return "eventForm";
+		} else {
+			this.eventService.saveEvent(event);
+			status.setComplete();
+			return "redirect:/events";
+		}
 	}
+	
+	/**
+     * @param binder the spring databinder object connected to the date editor
+     */
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        dateFormat.setLenient(true);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+    }
 }

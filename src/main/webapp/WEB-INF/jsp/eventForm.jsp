@@ -3,8 +3,9 @@
 
 
 
-<form:form modelAttribute="event" method="put">
+<form:form modelAttribute="event" method="post">
   <table>
+  <form:errors path="*" element="div" />
     <tr>
 		Event name:
         <br/>

@@ -4,20 +4,22 @@
 <b>AddEvent:</b>
 <br/>
 <form:form modelAttribute="event">
+		
   <table>
+  <form:errors path="*" element="div" />
     <tr>
       <th>
         <br/>
-        Event Name: <form:errors path="*" cssClass="errors"/>
+        Event Name: 
         <form:input path="name" size="35" maxlength="100"/>
        	<br/>
-        Date: <form:errors path="*" cssClass="errors"/>
+        Date: 
         <form:input path="eventDate" size="35" maxlength="100"/>
         <br/>
-        Event Location: <form:errors path="*" cssClass="errors"/>
+        Event Location:
         <form:input path="location" size="35" maxlength="100"/>
         <br/>
-        Event Description: <form:errors path="*" cssClass="errors"/>
+        Event Description:
         <form:textarea path="description" size="55" maxlength="100"/>
       </th>
     </tr>
