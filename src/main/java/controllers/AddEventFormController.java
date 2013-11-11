@@ -99,7 +99,6 @@ public class AddEventFormController {
 	}
 	
 	 /**
-     * Method establishes the transformation of incoming date strings into Date objects
      * @param binder the spring databinder object that we connect to the date editor
      */
     @InitBinder
