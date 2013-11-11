@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import services.EventLogSNSManager;
 import services.EventService;
 import domain.Event;
+import event.constants.EventLogConstants;
 
 /**
  * {@link AddEventFormController} controller responsible for adding events and
@@ -25,7 +26,6 @@ import domain.Event;
 @RequestMapping("/addEvent")
 public class AddEventFormController {
 	private EventService eventService;
-	private static final String RECIPIENT_EMAIL = "put_your_email_here";
 
 	/**
 	 * @param eventService
@@ -93,7 +93,7 @@ public class AddEventFormController {
 		EventLogSNSManager sns = new EventLogSNSManager();
 		event.setId(0);
 		sns.createTopic(event);
-		sns.subscribe(event, RECIPIENT_EMAIL);
+		sns.subscribe(event, EventLogConstants.RECIPIENT_EMAIL);
 		sns.publish(event, actionPerformed);
 		return event;	
 	}
