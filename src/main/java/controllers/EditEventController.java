@@ -40,7 +40,7 @@ public class EditEventController {
 		dataBinder.setDisallowedFields("id");
 	}
 
-	@RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(method = {RequestMethod.GET})
 	public String setupForm(@PathVariable("eventId") int eventId, Model model) {
 		
 		Event event = this.eventService.loadEvent(eventId);
