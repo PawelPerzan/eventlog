@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import services.EventLogSNSManager;
 import services.EventService;
 import domain.Event;
-import event.constants.EventLogConstants;
 
 /**
  * {@link AddEventFormController} controller responsible for adding events and
@@ -63,7 +62,7 @@ public class AddEventFormController {
 	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public String processSubmit(Event event, BindingResult result, Model model) {
-		
+		EventLogSNSManager sns = new EventLogSNSManager();
 		//Verify event creation
         if (event.getName().equals("")) {
             result.reject("name", "Event Name cannot be blank");
@@ -79,23 +78,10 @@ public class AddEventFormController {
 			return "addEvent";
 		} else {
 			eventService.saveEvent(event);
-			sendNotification(event, "ADD");
-			return "home";
+			sns.sendAddNotification(event, "ADD");
+			model.addAttribute("events", eventService.findAllEvents());
+			return "events";
 		}
-	}
-	
-	/**
-	 * Helper method to send notification
-	 * @param event
-	 * @return Event that was 
-	 */
-	private Event sendNotification(Event event, String actionPerformed) {
-		EventLogSNSManager sns = new EventLogSNSManager();
-		event.setId(0);
-		sns.createTopic(event);
-		sns.subscribe(event, EventLogConstants.RECIPIENT_EMAIL);
-		sns.publish(event, actionPerformed);
-		return event;	
 	}
 	
 	 /**

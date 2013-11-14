@@ -23,5 +23,6 @@
       <td>${event.description}</td>
     </tr>
   	</c:forEach>
+  	<tr><td><a href="<c:url value="/addEvent"/>">Add Event</a></td></tr>
 </table>
 <%@ include file="/WEB-INF/jsp/footer.jsp" %>

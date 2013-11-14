@@ -51,7 +51,7 @@ public class SnsFormController {
 			sns.subscribe(event, request.getParameter("name"));
 		}
 
-		sns.publish(event, "ADD Event");
+		//sns.publish(event, "ADD Event");
 
 		return "redirect:home.do";
 	}

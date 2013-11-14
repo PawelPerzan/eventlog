@@ -20,6 +20,7 @@ import com.amazonaws.services.sns.model.SubscribeRequest;
 import com.amazonaws.services.sns.model.SubscribeResult;
 
 import domain.Event;
+import event.constants.EventLogConstants;
 
 public class EventLogSNSManager  {
 
@@ -62,17 +63,13 @@ public class EventLogSNSManager  {
 	 * @param event
 	 * @return {@link PublishRequest} object
 	 */
-	public PublishResult publish(Event event, String actionPerformed) {
+	public PublishResult publish(Event event, String actionPerformed, String body) {
 		PublishRequest request = new PublishRequest();
 		request.setTopicArn(event.getSnsArn());
 
 		StringBuilder subject = new StringBuilder("Event posted: ");
 		subject.append(event.getName() + " - Action: " + actionPerformed);					
 		request.setSubject(subject.toString());
-
-		StringBuilder body = new StringBuilder();
-		body.append("The following event was added: '").append(event.getName()).append("'\n");
-		body.append("body of the notification");	
 
 		request.setMessage(body.toString());
 		return snsClient.publish(request);
@@ -104,13 +101,45 @@ public class EventLogSNSManager  {
 		return "entry" + StageUtils.getResourceSuffixForCurrentStage() + "-" + "0";		// hard coded for now
 	}
 
-	public static String getKey () {
+	/**
+	 * @return key
+	 */
+	public static String getKey() {
 		Configuration config = Configuration.getInstance();
 		return config.getProperty("accessKey");
 	}
 
-	public static String getSecret () {
+	/**
+	 * @return
+	 */
+	public static String getSecret() {
 		Configuration config = Configuration.getInstance();
 		return config.getProperty("secretKey");
+	}
+	
+	/**
+	 * Helper method to send notification
+	 * @param event
+	 * @return Event that was 
+	 */
+	public Event sendAddNotification(Event event, String actionPerformed) {
+		EventLogSNSManager sns = new EventLogSNSManager();
+		sns.createTopic(event);
+		sns.subscribe(event, EventLogConstants.RECIPIENT_EMAIL);
+		sns.publish(event, actionPerformed, "Hello,\n Please note, a new event  id: " + event.getId() + " " + EventLogConstants.ADDEVENT_MESSAGE);
+		return event;	
+	}
+	
+	/**
+	 * Helper method to send notification
+	 * @param event
+	 * @return Event that was 
+	 */
+	public Event sendEditNotification(Event event, String actionPerformed) {
+		EventLogSNSManager sns = new EventLogSNSManager();
+		sns.createTopic(event);
+		sns.subscribe(event, EventLogConstants.RECIPIENT_EMAIL);
+		sns.publish(event, actionPerformed, "Hello,\n Please note, an existing event  id: " + event.getId() + " " + EventLogConstants.EDITEVENT_MESSAGE);
+		return event;	
 	}
 }

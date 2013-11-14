@@ -5,14 +5,11 @@
 <br/>
 <form:form modelAttribute="event">
   <table>
+    <tr><td><form:errors path="*" cssClass="errors"/></td></tr>
     <tr>
-      <th>
-        <br/>
-        Event Name: <form:errors path="*" cssClass="errors"/>
-        <br/> 
-        <form:input path="name" size="35" maxlength="100"/>
-      </th>
+    	<td>Event Name:<form:input path="name" size="35" maxlength="100"/></td>
     </tr>
+    <br/>
     <tr>
       <td><p class="submit"><input type="submit" value="Find Events"/></p></td>
     </tr>

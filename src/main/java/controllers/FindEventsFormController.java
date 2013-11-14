@@ -56,21 +56,20 @@ public class FindEventsFormController {
 	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public String processSubmit(Event event, BindingResult result, Model model) {
-		// events by event name
 		String e = event.getName();
 		Collection<Event> results = eventService.findEvents(e);
 		if (results.size() < 1) {
-				result.rejectValue("name", "notFound", "not found");
+			result.rejectValue("name", "notFound", "Event(s) not found. Please try again.");
 			return "findEvents";
 		}
 		if (results.size() > 1) {
 			// multiple events found
-			model.addAttribute("selections", results);
+			model.addAttribute("events", results);
 			return "events";
 		} else {
 			// 1 event found
 			event = results.iterator().next();
-			return "redirect:event.do?eventId=" + event.getId();
+			return "redirect:/events/"+ event.getId() + "/edit";
 		}
 	}
 }

@@ -20,7 +20,7 @@ public class EventDAOImpl implements EventDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Event> findAll() {
-		return this.em.createQuery("SELECT event FROM Event event ORDER BY event.name").getResultList();
+		return this.em.createQuery("SELECT event FROM Event event ORDER BY event.id").getResultList();
 	}
 
 	@SuppressWarnings("unchecked")

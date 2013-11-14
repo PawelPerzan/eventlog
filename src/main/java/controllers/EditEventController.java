@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import services.EventLogSNSManager;
 import services.EventService;
 import domain.Event;
 
@@ -50,6 +51,7 @@ public class EditEventController {
 
 	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.POST})
 	public String processSubmit(@ModelAttribute("event") Event event, BindingResult result, SessionStatus status) {
+		EventLogSNSManager sns = new EventLogSNSManager();
 		//Verify event creation
         if (event.getName().equals("")) {
             result.reject("name", "Event Name cannot be blank");
@@ -66,6 +68,7 @@ public class EditEventController {
 			return "eventForm";
 		} else {
 			this.eventService.saveEvent(event);
+			sns.sendEditNotification(event, "EDIT");
 			status.setComplete();
 			return "redirect:/events";
 		}
