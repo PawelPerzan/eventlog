@@ -35,11 +35,24 @@ public class AddEventFormController {
 	}
 	
 	/**
+	 * Set disallowed fields to prevents from entering by the user 
+	 * by modifying request 
 	 * @param dataBinder
 	 */
     @InitBinder
     public void setAllowedFields(WebDataBinder dataBinder) {
         dataBinder.setDisallowedFields(new String[] {"id"});
+    }
+    
+    /**
+     * 
+     * @param binder databinder object that connects to the date editor
+     */
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        dateFormat.setLenient(true);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
     }
 
     /**
@@ -63,7 +76,7 @@ public class AddEventFormController {
 	@RequestMapping(method = RequestMethod.POST)
 	public String processSubmit(Event event, BindingResult result, Model model) {
 		EventLogSNSManager sns = new EventLogSNSManager();
-		//Verify event creation
+		//Validate event
         if (event.getName().equals("")) {
             result.reject("name", "Event Name cannot be blank");
         } 
@@ -83,14 +96,4 @@ public class AddEventFormController {
 			return "events";
 		}
 	}
-	
-	 /**
-     * @param binder the spring databinder object that we connect to the date editor
-     */
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        dateFormat.setLenient(true);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
-    }
 }
