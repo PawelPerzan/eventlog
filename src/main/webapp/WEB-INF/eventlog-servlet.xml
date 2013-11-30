@@ -33,6 +33,8 @@
 
 	<bean id="eventDAO" class="dao.EventDAOImpl" />
 	<bean id="eventService" class="services.EventServiceImpl" />
+	<bean id="auditDAO" class="dao.AuditDAOImpl" />
+	<bean id="auditService" class="services.AuditServiceImpl" />
 
 	<context:annotation-config />
 

@@ -7,7 +7,7 @@
 <body>
 <div id="main">
 <table class="footer">
-    <tr>
+    <tr style="background-color:#e0e0ff;font-family: Calibri, Tahoma, Arial, sans-serif;font-size: 14px">
       <td><a href="<c:url value="/"/>">Home</a></td>
     </tr>
   </table>

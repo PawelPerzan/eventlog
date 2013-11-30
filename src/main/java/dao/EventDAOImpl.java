@@ -26,9 +26,8 @@ public class EventDAOImpl implements EventDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Event> findEvents(String name) throws DataAccessException {
-		Query query = this.em.createQuery("SELECT DISTINCT event FROM Event event WHERE event.name =:name");
-	    //query.setParameter("name", name + "%");
-		query.setParameter("name", name);
+		Query query = this.em.createQuery("SELECT DISTINCT event FROM Event event WHERE event.name LIKE :name");
+		query.setParameter("name", "%" + name + "%");
 	    return query.getResultList();
 	}
 	

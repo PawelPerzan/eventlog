@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import services.AuditService;
 import services.EventLogSNSManager;
 import services.EventService;
+import domain.AuditLog;
 import domain.Event;
+import event.constants.EventLogConstants;
 
 
 @Controller
@@ -27,13 +30,17 @@ import domain.Event;
 @SessionAttributes("event")
 public class EditEventController {
 	private EventService eventService;
-	
+	private AuditService auditService;
+
 	/**
+	 * 
 	 * @param eventService
+	 * @param auditService
 	 */
 	@Autowired
-	public EditEventController(EventService eventService) {
+	public EditEventController(EventService eventService, AuditService auditService) {
 		this.eventService = eventService; 
+		this.auditService = auditService;
 	}
 	
 	/**
@@ -95,6 +102,14 @@ public class EditEventController {
 			return "eventForm";
 		} else {
 			this.eventService.saveEvent(event);
+			
+			AuditLog log = new AuditLog();
+			log.setUserId(EventLogConstants.RECIPIENT_EMAIL);
+			log.setAuditDate(new Date());
+			log.setAuditMessage("Event Edited");
+			log.setObjectId(event.getName());
+			auditService.saveAuditLog(log);
+			
 			sns.sendEditNotification(event, "EDIT");
 			status.setComplete();
 			return "redirect:/events";

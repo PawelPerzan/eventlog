@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import services.AuditService;
 import services.EventLogSNSManager;
 import services.EventService;
+import domain.AuditLog;
 import domain.Event;
+import event.constants.EventLogConstants;
 
 /**
  * {@link AddEventFormController} controller responsible for adding events and
@@ -25,14 +28,19 @@ import domain.Event;
 @RequestMapping("/addEvent")
 public class AddEventFormController {
 	private EventService eventService;
+	private AuditService auditService;
 
 	/**
+	 * 
 	 * @param eventService
+	 * @param auditService
 	 */
 	@Autowired
-	public AddEventFormController(EventService eventService) {
+	public AddEventFormController(EventService eventService, AuditService auditService) {
 		this.eventService = eventService; 
+		this.auditService = auditService;
 	}
+
 	
 	/**
 	 * Set disallowed fields to prevents from entering by the user 
@@ -91,6 +99,14 @@ public class AddEventFormController {
 			return "addEvent";
 		} else {
 			eventService.saveEvent(event);
+			
+			AuditLog log = new AuditLog();
+			log.setUserId(EventLogConstants.RECIPIENT_EMAIL);
+			log.setAuditDate(new Date());
+			log.setAuditMessage("Event Added");
+			log.setObjectId(event.getName());
+			auditService.saveAuditLog(log);
+
 			sns.sendAddNotification(event, "ADD");
 			model.addAttribute("events", eventService.findAllEvents());
 			return "events";

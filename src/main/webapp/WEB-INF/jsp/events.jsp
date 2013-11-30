@@ -1,8 +1,9 @@
 <%@ include file="/WEB-INF/jsp/includes.jsp" %>
 <%@ include file="/WEB-INF/jsp/header.jsp" %>
-<b>All Events:</b><br/>
+<h3 style="background-color:#e0e0ff;font-family: Calibri, Tahoma, Arial, sans-serif;font-size: 14px">All Events:</h3>
+<div id="eventContent" style="border: 1px solid; width=500px;">
 <table>
-	<tr>
+	<tr style="background-color:#e0e0e0;font-family: Calibri, Tahoma, Arial, sans-serif;font-size: 14px">
 		<td><b>Id</b></td>
 		<td><b>Name</b></td>
 		<td><b>Date</b></td>
@@ -10,7 +11,7 @@
 		<td><b>Description</b></td>
 	</tr>
 	<c:forEach var="event" items="${events}">
-    <tr>
+    <tr style="background-color:#e0e0e0;font-family: Calibri, Tahoma, Arial, sans-serif;font-size: 14px">
       <td>${event.id}</td>
       <td>
 	      <spring:url value="events/{eventId}" var="eventUrl">
@@ -23,6 +24,7 @@
       <td>${event.description}</td>
     </tr>
   	</c:forEach>
-  	<tr><td><a href="<c:url value="/addEvent"/>">Add Event</a></td></tr>
+  	<tr style="background-color:#e0e0e0;font-family: Calibri, Tahoma, Arial, sans-serif;font-size: 14px"><td><a href="<c:url value="/addEvent"/>">Add Event</a></td></tr>
 </table>
+</div>
 <%@ include file="/WEB-INF/jsp/footer.jsp" %>
