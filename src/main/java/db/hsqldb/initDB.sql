@@ -2,7 +2,7 @@ DROP TABLE events IF EXISTS;
 
 CREATE TABLE events (
   id INTEGER IDENTITY PRIMARY KEY,
-  name VARCHAR(30),
+  name VARCHAR_IGNORECASE(30),
   location VARCHAR(30),
   eventdate DATE,
   description VARCHAR(30),
@@ -17,7 +17,7 @@ CREATE TABLE auditlog (
 	objectid VARCHAR(20),
 	userid VARCHAR(30),
 	successind VARCHAR(10),
-	auditdate DATE,
+	auditdate VARCHAR(30),
 	auditmessage VARCHAR(50)
 );
 

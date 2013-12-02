@@ -20,7 +20,7 @@ public class AuditLog extends BaseEntity {
 	private String successInd;			// success Indicator
 	
     @Column(name = "auditdate")
-	private Date auditDate;
+	private String auditDate;
 	
     @Column(name = "auditmessage")
 	private String auditMessage;		// display, edit, add
@@ -70,14 +70,14 @@ public class AuditLog extends BaseEntity {
 	/**
 	 * @return the auditDate
 	 */
-	public Date getAuditDate() {
+	public String getAuditDate() {
 		return auditDate;
 	}
 
 	/**
 	 * @param auditDate the auditDate to set
 	 */
-	public void setAuditDate(Date auditDate) {
+	public void setAuditDate(String auditDate) {
 		this.auditDate = auditDate;
 	}
 
