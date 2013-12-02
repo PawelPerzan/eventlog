@@ -18,6 +18,6 @@ CREATE TABLE auditlog (
 	userid VARCHAR(30),
 	successind VARCHAR(10),
 	auditdate DATE,
-	auditmessage VARCHAR(50),
-)
+	auditmessage VARCHAR(50)
+);
 

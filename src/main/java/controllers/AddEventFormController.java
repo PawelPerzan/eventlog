@@ -103,8 +103,8 @@ public class AddEventFormController {
 			AuditLog log = new AuditLog();
 			log.setUserId(EventLogConstants.RECIPIENT_EMAIL);
 			log.setAuditDate(new Date());
-			log.setAuditMessage("Event Added");
 			log.setObjectId(event.getName());
+			log.setAuditMessage("Event Added");
 			auditService.saveAuditLog(log);
 
 			sns.sendAddNotification(event, "ADD");

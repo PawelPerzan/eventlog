@@ -106,8 +106,8 @@ public class EditEventController {
 			AuditLog log = new AuditLog();
 			log.setUserId(EventLogConstants.RECIPIENT_EMAIL);
 			log.setAuditDate(new Date());
-			log.setAuditMessage("Event Edited");
 			log.setObjectId(event.getName());
+			log.setAuditMessage("Event Edited");
 			auditService.saveAuditLog(log);
 			
 			sns.sendEditNotification(event, "EDIT");
